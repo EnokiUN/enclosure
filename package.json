@@ -1,0 +1,26 @@
+{
+  "name": "enclosure",
+  "version": "1.0.0",
+  "description": "",
+  "main": "build/index.js",
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc && node ."
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bufferutil": "^4.0.7",
+    "discord.js": "^14.14.1",
+    "dotenv": "^16.0.3",
+    "erlpack": "github:discord/erlpack",
+    "puppeteer": "^20.9.0",
+    "shoukaku": "github:shipgirlproject/Shoukaku",
+    "utf-8-validate": "^5.0.10",
+    "zlib-sync": "^0.1.7"
+  },
+  "devDependencies": {
+    "typescript": "^5.1.6"
+  }
+}
