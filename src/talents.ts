@@ -23,21 +23,17 @@ export default async (msg: Message, args: string, browser: Browser) => {
 
   let hasTalents = await page.evaluate(() => {
     const span = document.createElement('span');
-    let current = document.getElementById('Talent(s)');
-    while (true) {
-      current = current.nextElementSibling as HTMLElement;
-      if (current.className == 'H2') {
-        break;
-      }
+    let current = document.getElementById('Talent(s)').parentElement.nextElementSibling;
+    while (current && current.tagName != 'H2') {
+      const newCurrent = current.nextElementSibling as HTMLElement;
       span.appendChild(current);
+      current = newCurrent;
     }
-    current = document.getElementById('Base_skills');
-    while (true) {
-      current = current.nextElementSibling as HTMLElement;
-      if (current.className == 'H2') {
-        break;
-      }
+    current = document.getElementById('Base_skills').parentElement.nextElementSibling;
+    while (current && current.tagName != 'H2') {
+      const newCurrent = current.nextElementSibling as HTMLElement;
       span.appendChild(current);
+      current = newCurrent;
     }
     if (span.children.length == 0) {
       return false;
@@ -65,7 +61,7 @@ export default async (msg: Message, args: string, browser: Browser) => {
     (h as HTMLSpanElement).style.padding = '5px';
 
     const style = document.createElement('style');
-    style.innerHTML = '.otherskill { width: 100%; margin: 0; box-sizing: border-box; }';
+    style.innerHTML = '.mrfz-wtable { width: 100%; margin: 0; box-sizing: border-box; }';
     document.head.appendChild(style);
   });
   await span.scrollIntoView();
@@ -73,7 +69,7 @@ export default async (msg: Message, args: string, browser: Browser) => {
   await new Promise(r => setTimeout(r, 1000));
 
   const screenshot = await span.screenshot({ encoding: 'binary' });
-  // await cache(char + 'talents', screenshot as Buffer);
+  await cache(char + 'talents', screenshot as Buffer);
 
   await reply.edit({ content: `[More info](<https://arknights.wiki.gg/wiki/${char.replace(/ /gi, '_')}#Talent(s)>)`, files: [{ attachment: screenshot }] });
 
