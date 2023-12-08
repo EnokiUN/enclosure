@@ -48,7 +48,7 @@ export default async (client: Client, msg: Message, command: string, args: strin
                 },
                 title: `Playing ${song.track.info.title}`,
                 image: { url: song.track.info.artworkUrl },
-                description: `By ${song.track.info.author} - ${Math.floor(length)}:${String(Math.floor((length % 1) * 60 - 1)).padStart(2, '0')}`,
+                description: `By ${song.track.info.author} - ${Math.floor(length)}:${String(Math.min(Math.floor((length % 1) * 60 - 1), 0)).padStart(2, '0')}`,
                 color: 0x202A44,
               }]
             });
@@ -91,7 +91,7 @@ export default async (client: Client, msg: Message, command: string, args: strin
             },
             title: `Playing ${track.info.title}`,
             image: { url: track.info.artworkUrl },
-            description: `By ${track.info.author} - ${Math.floor(length)}:${String(Math.floor((length % 1) * 60 - 1)).padStart(2, '0')}`,
+            description: `By ${track.info.author} - ${Math.floor(length)}:${String(Math.min(Math.floor((length % 1) * 60 - 1), 0)).padStart(2, '0')}`,
             color: 0x202A44,
           }]
         });
