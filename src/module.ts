@@ -53,7 +53,7 @@ export default async (msg: Message, args: string, browser: Browser) => {
       hideButton.parentElement.remove();
       (module as HTMLDivElement).style.width = '100%'
       let data = module.children[1];
-      data.children[2].remove();
+      data.children[3].remove();
       data.children[1].remove();
       span.appendChild(module);
       return true;
@@ -75,6 +75,7 @@ export default async (msg: Message, args: string, browser: Browser) => {
     (h as HTMLSpanElement).style.width = '100%';
 
     const style = document.createElement('style');
+    style.innerHTML = '.mrfz-wtable { margin: 0 !important; }'
     document.head.appendChild(style);
   });
   await span.scrollIntoView();
