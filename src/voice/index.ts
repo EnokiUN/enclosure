@@ -4,6 +4,21 @@ import { LoadType, Track } from 'shoukaku';
 
 const queues: Map<string, { songs: { track: Track, msg: Message }[], timeout: NodeJS.Timeout | undefined, channel: string }> = new Map();
 
+const displayLength = (length: number): string => {
+  const ms = length % 1000;
+  length = (length - ms) / 1000;
+  const secs = length % 60;
+  length = (length - secs) / 60;
+  const mins = length % 60;
+  const hours = (length - mins) / 60;
+
+  let result = String(mins).padStart(2, '0') + ':' + String(secs).padStart(2, '0');
+  if (hours) {
+    result = hours + ':' + result;
+  }
+  return result;
+}
+
 export default async (client: Client, msg: Message, command: string, args: string | undefined) => {
   try {
     if (command == 'play' && args) {
@@ -35,7 +50,6 @@ export default async (client: Client, msg: Message, command: string, args: strin
           if (queue.songs.length) {
             let song = queue.songs[0];
             await player.playTrack({ track: song.track.encoded });
-            const length = song.track.info.length / 1000 / 60;
             await song.msg.channel.send({
               embeds: [{
                 author: {
@@ -48,14 +62,15 @@ export default async (client: Client, msg: Message, command: string, args: strin
                 },
                 title: `Playing ${song.track.info.title}`,
                 image: { url: song.track.info.artworkUrl },
-                description: `By ${song.track.info.author} - ${Math.floor(length)}:${String(Math.min(Math.floor((length % 1) * 60 - 1), 0)).padStart(2, '0')}`,
+                description: `By ${song.track.info.author} - ${displayLength(song.track.info.length)}`,
                 color: 0x202A44,
               }]
             });
           } else {
             await msg.channel.send('No more songs to play :/');
-            queue.timeout = setTimeout(() => {
+            queue.timeout = setTimeout(async () => {
               client.shoukaku.leaveVoiceChannel(msg.guildId);
+              await msg.channel.send('Nothing is going on, imma dip');
             }, 600000);
           }
         });
@@ -91,7 +106,7 @@ export default async (client: Client, msg: Message, command: string, args: strin
             },
             title: `Playing ${track.info.title}`,
             image: { url: track.info.artworkUrl },
-            description: `By ${track.info.author} - ${Math.floor(length)}:${String(Math.min(Math.floor((length % 1) * 60 - 1), 0)).padStart(2, '0')}`,
+            description: `By ${track.info.author} - ${displayLength(track.info.length)}`,
             color: 0x202A44,
           }]
         });
@@ -108,7 +123,7 @@ export default async (client: Client, msg: Message, command: string, args: strin
             },
             title: `Added ${track.info.title} to queue`,
             image: { url: track.info.artworkUrl },
-            description: `By ${track.info.author} - ${Math.floor(length)}:${String(Math.floor((length % 1) * 60 - 1)).padStart(2, '0')}`,
+            description: `By ${track.info.author} - ${displayLength(track.info.length)}`,
             color: 0x202A44,
           }]
         });
