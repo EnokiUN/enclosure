@@ -38,11 +38,11 @@ export default async (msg: Message, args: string, browser: Browser) => {
       let span = document.createElement('span');
       document.getElementsByTagName('main')[0].appendChild(span);
       span.id = 'modules';
-      let moduleTitle = document.getElementById('Modules').parentElement;
+      const moduleTitle = document.getElementById('Modules').parentElement;
       let module = moduleTitle.nextElementSibling;
-      let actualModIndex = moduleIndex == 'Z' ? 'Δ' : moduleIndex;
+      const actualModIndex = moduleIndex == 'Z' ? 'Δ' : moduleIndex;
       while (true) {
-        if (module.nodeName == 'DIV' && module.getElementsByTagName('th')[0].innerText.endsWith(actualModIndex)) {
+        if (module.nodeName == 'DIV' && module.getElementsByTagName('th')[0].innerText.endsWith(actualModIndex + '\n')) { // "Mobile compat" added newlines to the end of fucking hidden th elements what the fuck
           break;
         }
         module = module.nextElementSibling;
@@ -52,7 +52,8 @@ export default async (msg: Message, args: string, browser: Browser) => {
       hideButton.click();
       hideButton.parentElement.remove();
       (module as HTMLDivElement).style.width = '100%'
-      let data = module.children[1];
+      module.children[0].remove();
+      let data = module.children[0];
       data.children[3].remove();
       data.children[1].remove();
       span.appendChild(module);

@@ -44,8 +44,8 @@ export default async (msg: Message, args: string, browser: Browser) => {
 
       const statsHeader = document.getElementById('Stats').parentElement;
       if (pageType == 'operator') {
-        const range = statsHeader.nextElementSibling;
-        const stats = range.nextElementSibling;
+        const range = statsHeader.nextElementSibling.nextElementSibling;
+        const stats = range.nextElementSibling.nextElementSibling;
         span.appendChild(range);
         span.appendChild(stats);
       } else {
