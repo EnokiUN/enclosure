@@ -5,7 +5,7 @@ export default async (msg: Message, args: string) => {
   args = args.replace(/(?:lv|lvl|level) ?(\d+)/i, (_, p1) => { searchLevel = Number.parseInt(p1); return ''; }).trim();
   await msg.react('<a:WDance:1132989381687382046>');
   const resp = await fetch(
-    `https://arkprtserver.herokuapp.com/api/search?nickname=${encodeURIComponent(args)}&server=en`,
+    `https://arkprts.ashlen.gay/api/search?nickname=${encodeURIComponent(args)}&server=en`,
   );
   const users: any[] = await resp.json();
   let data: any;

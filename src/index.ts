@@ -1,5 +1,5 @@
 import dotenv from 'dotenv';
-import { ActivityType, Client as BaseClient, Events, GatewayIntentBits, TextChannel } from 'discord.js';
+import { ActivityType, Client as BaseClient, Events, GatewayIntentBits, GuildChannel, TextChannel } from 'discord.js';
 import { Shoukaku, Connectors, Track } from 'shoukaku';
 import { Browser } from 'puppeteer';
 import { rm } from 'fs/promises';
@@ -13,6 +13,7 @@ import map from './map';
 import user from './user';
 import voice from './voice';
 import description from './description';
+import search from './search';
 
 dotenv.config();
 
@@ -47,6 +48,12 @@ client.on(Events.MessageCreate, async (msg) => {
   try {
     if (command == 'ping') {
       await msg.reply('<a:WDance:1132989381687382046>');
+    } else if (command == 'changelog') {
+      await msg.reply(`\`\`\`
+# Version 0.1.1
+
+Added a \`search\` command when you're not sure about the spelling of something.
+\`\`\``)
     } else if (command == 'help') {
       await msg.reply(`\`\`\`
 # Command list
@@ -59,6 +66,7 @@ ban <thing>                          bans something (real)
 howcringe, howmeta, howsimp
 howreal howbased, howgenius
 howlucky, howdrunk                   haha spam xddd
+changelog                            new features and fixes
 
 ## Info
 
@@ -69,6 +77,7 @@ talents <operator>                   info about an operator's talents (and base 
 module <operator> <module=X|Y|Z>     info about an operator's module
 user <username> [lv(level)]          info about an in-game user, optionally filters by level
 map <map code> [story|easy|hard]     info about a map
+search <args>                        searches the wiki for a specific page
 
 ## Voice
 
@@ -125,6 +134,8 @@ skip                                 skips the current song
           await module(msg, args, browser);
         } else if (command == 'map' && args) {
           await map(msg, args, browser);
+        } else if (command == 'search' && args) {
+          await search(msg, args);
         }
       }
     }
