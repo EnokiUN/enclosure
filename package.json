@@ -16,7 +16,6 @@
     "dotenv": "^16.0.3",
     "erlpack": "github:discord/erlpack",
     "puppeteer": "^20.9.0",
-    "shoukaku": "github:shipgirlproject/Shoukaku",
     "utf-8-validate": "^5.0.10",
     "zlib-sync": "^0.1.7"
   },

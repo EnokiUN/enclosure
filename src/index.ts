@@ -1,6 +1,5 @@
 import dotenv from 'dotenv';
-import { ActivityType, Client as BaseClient, Events, GatewayIntentBits, GuildChannel, TextChannel } from 'discord.js';
-import { Shoukaku, Connectors, Track } from 'shoukaku';
+import { ActivityType, Client, Events, GatewayIntentBits, GuildChannel, TextChannel } from 'discord.js';
 import { Browser } from 'puppeteer';
 import { rm } from 'fs/promises';
 import puppeteer from 'puppeteer';
@@ -11,7 +10,6 @@ import stats from './stats';
 import module from './module';
 import map from './map';
 import user from './user';
-import voice from './voice';
 import description from './description';
 import search from './search';
 
@@ -19,16 +17,10 @@ dotenv.config();
 
 let browser: Browser;
 let reportChannel: TextChannel;
-export const supportsVoice = process.env.VOICE == 'true';
 export const supportsWiki = process.env.WIKI == 'true';
-
-export class Client extends BaseClient {
-  shoukaku: Shoukaku;
-}
 
 const intents = GatewayIntentBits.Guilds | GatewayIntentBits.GuildMessages | GatewayIntentBits.MessageContent | GatewayIntentBits.GuildVoiceStates;
 const client = new Client({ intents });
-let shoukaku: Shoukaku;
 
 client.on(Events.Error, async (err) => { console.log(err) });
 
@@ -78,13 +70,6 @@ module <operator> <module=X|Y|Z>     info about an operator's module
 user <username> [lv(level)]          info about an in-game user, optionally filters by level
 map <map code> [story|easy|hard]     info about a map
 search <args>                        searches the wiki for a specific page
-
-## Voice
-
-play <video>                         plays a video from youtube
-leave                                leaves the voice channel
-queue                                shows the current video queue
-skip                                 skips the current song
 \`\`\``
       );
     } else if (command == 'user' && args) {
@@ -116,9 +101,6 @@ skip                                 skips the current song
       await rm('cache/' + args);
       await msg.react('<a:WDance:1132989381687382046>');
     } else {
-      if (supportsVoice) {
-        await voice(client, msg, command, args);
-      }
       if (supportsWiki) {
         if ((command == 'skill' || command == 'skills') && args) {
           await skill(msg, args, browser);
@@ -144,18 +126,5 @@ skip                                 skips the current song
     console.log(err);
   }
 });
-
-if (supportsVoice) {
-  const Nodes = [{
-    name: 'Localhost',
-    url: 'localhost:2333',
-    auth: 'youshallnotpass'
-  }];
-
-  shoukaku = new Shoukaku(new Connectors.DiscordJS(client), Nodes);
-
-  shoukaku.on('error', (_, error) => console.error(error));
-  client.shoukaku = shoukaku;
-}
 
 client.login(process.env.TOKEN);
