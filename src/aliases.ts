@@ -46,6 +46,7 @@ export default {
   },
   ...{
     fedex: 'Executor the Ex Foedere',
+    fatass: 'Executor the Ex Foedere',
     exalter: 'Executor the Ex Foedere',
     execalter: 'Executor the Ex Foedere',
     'executor alter': 'Executor the Ex Foedere',
