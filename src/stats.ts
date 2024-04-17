@@ -36,6 +36,11 @@ export default async (msg: Message, args: string, browser: Browser) => {
         if (iconButtonsHeader) {
           iconButtonsHeader.style.opacity = '0';
         }
+        let eliteTab = document.getElementById('tab-Elite_2-1') as HTMLAnchorElement;
+        if (eliteTab) {
+          eliteTab.click();
+          eliteTab.parentElement.remove();
+        }
         span.appendChild(header);
       }
       document.getElementsByTagName('main')[0].appendChild(span);
@@ -46,7 +51,7 @@ export default async (msg: Message, args: string, browser: Browser) => {
       if (pageType == 'operator') {
         const range = statsHeader.nextElementSibling.nextElementSibling;
         const stats = range.nextElementSibling.nextElementSibling;
-        span.appendChild(range);
+        // span.appendChild(range);
         span.appendChild(stats);
       } else {
         let current = statsHeader.nextElementSibling;
@@ -74,12 +79,13 @@ export default async (msg: Message, args: string, browser: Browser) => {
     (h as HTMLSpanElement).style.position = 'absolute';
     (h as HTMLSpanElement).style.top = '0';
     (h as HTMLSpanElement).style.left = '0';
+    (h as HTMLSpanElement).style.width = '1080px';
     if ((h as HTMLSpanElement).dataset.pageType == 'operator') {
       (h as HTMLSpanElement).style.padding = '5px';
     }
 
     const style = document.createElement('style');
-    style.innerHTML = '.mrfz-btable , .mrfz-wtable { margin: 0; } .mrfz-btable { border: unset; width: 100%; }';
+    style.innerHTML = '.mrfz-btable , .mrfz-wtable { margin: 0; width: 100%; } .mrfz-btable { border: unset; width: 100%; }';
     document.head.appendChild(style);
   });
   await span.scrollIntoView();

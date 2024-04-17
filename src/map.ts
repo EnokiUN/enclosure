@@ -97,7 +97,7 @@ export default async (msg: Message, args: string, browser: Browser) => {
     (h as HTMLSpanElement).style.left = '0';
 
     const style = document.createElement('style');
-    style.innerHTML = '.imagefit { width: 100% !important; } .mrfz-wtable { margin: 0; border: unset; width: 100% !important; } article { display: block; }';
+    style.innerHTML = '.imagefit { width: 100% !important; } .mrfz-wtable { margin: 0; border: unset; width: 100% !important; } article { display: block; } .mw-headline { color: #eee };';
     document.head.appendChild(style);
 
     (h as HTMLSpanElement).style.height = 'unset';

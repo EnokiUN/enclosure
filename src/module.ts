@@ -27,7 +27,7 @@ export default async (msg: Message, args: string, browser: Browser) => {
   await page.evaluate(() => window.scrollTo(0, window.innerHeight));
   await page.evaluate(() => window.scrollTo(0, 0));
 
-  const tempTitle = await page.$('#Modules');
+  const tempTitle = await page.$('#Operator_Modules');
   if (tempTitle == null) {
     await reply.edit(`Couldn't find operator ${char}'s modules`);
     return;
@@ -38,14 +38,17 @@ export default async (msg: Message, args: string, browser: Browser) => {
       let span = document.createElement('span');
       document.getElementsByTagName('main')[0].appendChild(span);
       span.id = 'modules';
-      const moduleTitle = document.getElementById('Modules').parentElement;
+      const moduleTitle = document.getElementById('Operator_Modules').parentElement;
       let module = moduleTitle.nextElementSibling;
       const actualModIndex = moduleIndex == 'Z' ? 'Δ' : moduleIndex;
       while (true) {
-        if (module.nodeName == 'DIV' && module.getElementsByTagName('th')[0].innerText.endsWith(actualModIndex + '\n')) { // "Mobile compat" added newlines to the end of fucking hidden th elements what the fuck
-          break;
-        }
+        try {
+          if (module.nodeName == 'DIV' && module.getElementsByTagName('span')[1].innerText.endsWith(actualModIndex)) {
+            break;
+          }
+        } catch { }
         module = module.nextElementSibling;
+        if (!module) return false;
       }
       let hideButton =
         (module.getElementsByClassName('mw-collapsible-text')[0] as HTMLAnchorElement);

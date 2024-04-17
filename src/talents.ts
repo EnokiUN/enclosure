@@ -23,7 +23,7 @@ export default async (msg: Message, args: string, browser: Browser) => {
 
   let hasTalents = await page.evaluate(() => {
     const span = document.createElement('span');
-    let current = document.getElementById('Talent(s)').parentElement.nextElementSibling;
+    let current = document.getElementById('Talents').parentElement.nextElementSibling;
     while (current && current.tagName != 'H2') {
       const newCurrent = current.nextElementSibling as HTMLElement;
       span.appendChild(current);
