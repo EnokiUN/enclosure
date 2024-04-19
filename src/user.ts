@@ -1,21 +1,26 @@
 import { Message } from "discord.js";
 import { Browser } from "puppeteer";
+import { toPascalCase } from "./utils";
 
 
 export default async (msg: Message, args: string, browser: Browser) => {
   let searchLevel: undefined | number = undefined;
+  let assistant: undefined | string = undefined;
   args = args.replace(/(?:lv|lvl|level) ?(\d+)/i, (_, p1) => { searchLevel = Number.parseInt(p1); return ''; }).trim();
+  args = args.replace(/-s ?(.+)/i, (_, p1) => { assistant = toPascalCase(p1); return ''; }).trim();
   await msg.react('<a:WDance:1132989381687382046>');
   const apiResp = await fetch(
     `https://arkprts.ashlen.top/api/search?nickname=${encodeURIComponent(args)}&server=en`,
   );
-  const users: any[] = await apiResp.json();
+  let users: any[] = await apiResp.json();
   let data: any;
   if (searchLevel) {
-    data = users.find((u) => u.level == searchLevel);
-  } else {
-    data = users[0];
+    users = users.filter((u) => u.level == searchLevel);
   }
+  if (assistant) {
+    users = users.filter((u) => u.assistant.name == assistant);
+  }
+  data = users[0];
   if (!data) {
     await msg.reply("I couldn't find a user like that (they don't exist)");
     return;
