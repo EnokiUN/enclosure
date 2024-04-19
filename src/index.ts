@@ -73,7 +73,7 @@ search <args>                        searches the wiki for a specific page
 \`\`\``
       );
     } else if (command == 'user' && args) {
-      await user(msg, args);
+      await user(msg, args, browser);
     } else if (command == 'report') {
       let originalMessage = await msg.fetchReference().catch(() => undefined);
       if (originalMessage && originalMessage.author.id == client.user.id) {
