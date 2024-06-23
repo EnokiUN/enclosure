@@ -13,6 +13,7 @@ export default async (msg: Message, args: string, browser: Browser) => {
     `https://arkprts.ashlen.top/api/search?nickname=${encodeURIComponent(args)}&server=en`,
   );
   let users: any[] = await apiResp.json();
+  users.sort((u1, u2) => new Date(u1.lastonline).getTime() - u2.lastonline.getTime());
   let data: any;
   if (searchLevel) {
     users = users.filter((u) => u.level == searchLevel);

@@ -34,7 +34,12 @@ client.once(Events.ClientReady, async (c) => {
 });
 
 client.on(Events.MessageCreate, async (msg) => {
-  if (!msg.content.startsWith('e!') || msg.author.id == client.user.id) return;
+  if (!msg.content.startsWith('e!') || msg.author.id == client.user.id) {
+    if (msg.content.indexOf('kya') > -1) {
+      await msg.react('<:kyaer:1247513995104096286>');
+    }
+    return;
+  }
   const parts = msg.content.replace('e!', '').split(' ');
   const [command, args] = [parts.shift(), parts.join(' ').trim()];
   try {
@@ -97,6 +102,13 @@ search <args>                        searches the wiki for a specific page
       if (['cringe', 'meta', 'simp', 'genius', 'based', 'lucky', 'real', 'drunk'].includes(metric)) {
         await msg.reply({ content: `${subject} is **${percentage}%** ${metric}`, allowedMentions: { parse: [] } });
       }
+    } else if (command == 'wife') {
+      await msg.reply(
+        `✨*how does it appear*✨
+✨*my form in your eyes?*✨
+✨*perhaps within the clockwork of time*✨
+✨*the answer lies*✨`
+      );
     } else if (command == 'uncache' && args && msg.author.id == '559226493553737740') {
       await rm('cache/' + args);
       await msg.react('<a:WDance:1132989381687382046>');
