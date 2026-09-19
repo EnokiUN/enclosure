@@ -8,12 +8,15 @@ export default async (msg: Message, args: string, browser: Browser) => {
   let assistant: undefined | string = undefined;
   args = args.replace(/(?:lv|lvl|level) ?(\d+)/i, (_, p1) => { searchLevel = Number.parseInt(p1); return ''; }).trim();
   args = args.replace(/-s ?(.+)/i, (_, p1) => { assistant = toPascalCase(p1); return ''; }).trim();
-  await msg.react('<a:WDance:1132989381687382046>');
+  try {
+    await msg.react('<a:WDance:1132989381687382046>');
+  } catch {
+  };
   const apiResp = await fetch(
     `https://arkprts.ashlen.top/api/search?nickname=${encodeURIComponent(args)}&server=en`,
   );
   let users: any[] = await apiResp.json();
-  users.sort((u1, u2) => new Date(u1.lastonline).getTime() - u2.lastonline.getTime());
+  users.sort((u1, u2) => new Date(u2.lastonline).getTime() - new Date(u1.lastonline).getTime());
   let data: any;
   if (searchLevel) {
     users = users.filter((u) => u.level == searchLevel);
@@ -27,7 +30,7 @@ export default async (msg: Message, args: string, browser: Browser) => {
     return;
   }
   const page = await browser.newPage();
-  const resp = await page.goto(`https://arkprts.ashlen.top/search?nickname=${data.uid}&server=en`, { timeout: 1000000, waitUntil: 'networkidle0' });
+  await page.goto(`https://arkprts.ashlen.top/search?nickname=${data.uid}&server=en`, { timeout: 1000000, waitUntil: 'networkidle0' });
 
   await page.evaluate(() => window.scrollTo(0, window.innerHeight));
   await page.evaluate(() => window.scrollTo(0, 0));

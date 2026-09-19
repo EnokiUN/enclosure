@@ -13,6 +13,9 @@ export default async (msg: Message, args: string, browser: Browser) => {
     parts.pop();
     map = toPascalCase(parts.join(' '));
   } else {
+    if (args.at(0).toLowerCase() == args.at(0)) {
+      args = args.toUpperCase().replace(/ /g, '-');
+    }
     map = toPascalCase(args);
   }
 

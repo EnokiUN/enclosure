@@ -11,11 +11,14 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@napi-rs/canvas": "^0.1.53",
     "bufferutil": "^4.0.7",
     "discord.js": "^14.14.1",
     "dotenv": "^16.0.3",
     "erlpack": "github:discord/erlpack",
     "puppeteer": "^21.7.0",
+    "sqlite": "^5.1.1",
+    "sqlite3": "^5.1.7",
     "utf-8-validate": "^5.0.10",
     "zlib-sync": "^0.1.7"
   },

@@ -8,6 +8,12 @@ export default {
     'specter alter': 'Specter the Unchained',
   },
   ...{
+    logod: 'Logos',
+    'logos vi kazdel': 'Logos',
+    'vi kazdel': 'Logos',
+    'i command you to die': 'Logos',
+  },
+  ...{
     texalter: 'Texas the Omertosa',
     texter: 'Texas the Omertosa',
     taxes: 'Texas the Omertosa',
@@ -79,6 +85,7 @@ export default {
   'da ge': 'Chongyue',
   "kaltsit": "Kal'tsit",
   'blue woman': 'Ling',
+  'walter': 'Wiš\'adel',
   mlynar: 'Młynar',
   zofia: 'Whislash',
   // sob zone
